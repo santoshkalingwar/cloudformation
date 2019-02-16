@@ -165,5 +165,18 @@
                 }
             }
         }
+    },
+
+    "Outputs": {
+    "Ec2Ip" : {
+      "Value" : {"Fn::GetAtt" : [ "webserver" , "PublicIp" ]}
+    },
+    
+    "URL" : {
+      "Value" : {"Fn::Join": ["", ["http://", {"Fn::GetAtt": ["webserver", "PublicIp"]}]]}
     }
+}
+    
+
+    
 }

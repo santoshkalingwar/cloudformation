@@ -1,0 +1,71 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "this is my first vpc creation in cloudformation",
+    "Parameters": {
+        "vpccidr": {
+            "Description": "cidr block for vpc",
+            "Type": "String",
+            "Default": "10.0.0.0/16"
+        },
+        "subnetcidr": {
+            "Description": "minimum two subnets you have to create",
+            "Type": "String",
+            "Default": "10.0.1.0/24"
+        },
+        "instancetype": {
+            "Type": "String",
+            "Default": "t2.micro"
+        }
+    },
+    "Resources": {
+        "myfirstvpc": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": {
+                    "Ref": "vpccidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "myfirstvpc"
+                    }
+                ]
+            }
+        },
+        "subnetName": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "myfirstvpc"
+                },
+                "CidrBlock": {
+                    "Ref": "subnetcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "subnet1"
+                    }
+                ]
+            }
+        },
+        "ec2creation": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "ImageId": "ami-0f65671a86f061fcd",
+                "InstanceType": {
+                    "Ref": "instancetype"
+                },
+                "SubnetId": {
+                    "Ref": "subnetName"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "webserver"
+                    }
+                ]
+            }
+        }
+    }
+}
