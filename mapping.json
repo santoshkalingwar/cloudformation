@@ -1,0 +1,37 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "this is my first vpc creation in cloudformation",
+    "Mappings": {
+        "RegionMap": {
+            "us-west-2": {
+                "AMI": "ami-0bbe6b35405ecebdb"
+            },
+            "ap-southeast-1": {
+                "AMI": "ami-0d773a3b7bb2bb1c1"
+            }
+        }
+    },
+    "Resources": {
+        "webserver": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "ImageId": {
+                    "Fn::FindInMap": [
+                        "RegionMap",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        "AMI"
+                    ]
+                },
+                "InstanceType": "t2.micro",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "webserver"
+                    }
+                ]
+            }
+        }
+    }
+}
